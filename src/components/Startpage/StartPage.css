@@ -1,0 +1,16 @@
+
+.div {
+    margin-top: 100px;
+
+}
+
+.Button{
+    width: 230px;
+margin-bottom: 10px;    
+}
+.Body{
+    display: flex;
+    justify-content: center;
+}
+
+

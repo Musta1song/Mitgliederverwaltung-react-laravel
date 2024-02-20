@@ -1,0 +1,23 @@
+table{
+    width: 80%;
+}
+tr{
+    border: 1px solid gray;
+
+
+}
+th{
+    font-size: 22px;
+    border: 1px solid gray;
+
+
+}
+
+td{
+    font-size: 18px;
+    border: 1px solid gray;
+}
+.ddiv{
+    display: flex;
+    justify-content: center;
+}
