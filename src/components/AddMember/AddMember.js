@@ -8,6 +8,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import moment from 'moment';
 import 'dayjs/locale/de';
+import dayjs from 'dayjs';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -20,15 +21,18 @@ const AddMember = () => {
         SecondName: "",
         MemberId: null,
         MembershipFee: null,
+        entry: null,
+        birth: null,
         role: "",
     };
     const [member, setMember] = useState(initialState);
 
-    const [entry, setEntry] = useState(new Date());
-    const EntryDate = moment(entry).format('YYYY-MM-DD');
+    const [entry, setEntry] = useState(initialState);
+    const entryDate = moment(entry).format('YYYY-MM-DD');
 
-    const [birth, setBirthdate] = useState(new Date());
-    const BirthDate = moment(birth).format('YYYY-MM-DD');
+    const [birth, setBirthdate] = useState(initialState);
+    const birthDate = moment(birth).format('YYYY-MM-DD');
+
 
     const handleInputChange = event => {
         const { name, value } = event.target;
@@ -42,8 +46,8 @@ const AddMember = () => {
             MemberId: member.MemberId,
             MembershipFee: member.MembershipFee,
             ExitDate: member.ExitDate = null,
-            EntryDate: member.EntryDate = EntryDate,
-            BirthDate: member.BirthDate = BirthDate,
+            EntryDate: member.EntryDate = entryDate,
+            BirthDate: member.BirthDate = birthDate,
             role: member.role,
         };
 
@@ -103,11 +107,12 @@ const AddMember = () => {
                             <DatePicker format="dd.MM.YYY"
                                 label="Geburtsdatum" className='Date'
                                 onChange={(date) => setBirthdate(date)}
-                                id="ExitDate" />
+                                id="BirthDate" value={dayjs(birth)}/>
                             <DatePicker format="dd.MM.YYY" label="Vereinseintritt *" className='Date' 
                                 onChange={(date) => setEntry(date)}
-                                id="EntryDate" />
+                                id="EntryDate" value={dayjs(entry)} />
                         </LocalizationProvider>
+                        
 
                     </MuiPickersUtilsProvider>
 

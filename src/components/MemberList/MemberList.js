@@ -27,7 +27,6 @@ const MemberList = () => {
             });
     };
 
-    let toChange
     const initialState = {
         exit: null,
 
@@ -48,13 +47,17 @@ const MemberList = () => {
         let FormStyle = document.getElementById("exit")
         FormStyle.style.visibility = "visible"
     }
+    let toChange
+
     const setIsActiveToFalse = () => {
-        let UpdateData = [{ isActive: toChange[0].isActive = false },
-        { ExitDate: exitDate }]
+        let UpdateData = {
+            isActive: toChange[0].isActive = false,
+            ExitDate: exitDate
+        }
+        console.log(UpdateData)
         MemberService.update(toChange[0].id, UpdateData)
             .then(response => {
-                console.log("Member with updated successfully")
-                window.location.reload()
+                alert("Mitglied erfolgreich aktualisiert!")
             })
             .catch(e => {
                 console.log(e);
@@ -81,8 +84,8 @@ const MemberList = () => {
     return (
         <div>
             <div className='flex'>
-                <div id='form'><Button onClick={remove}>delete</Button><br></br>
-                    <Button onClick={openUpdateForm}>update</Button>
+                <div id='form'><Button onClick={remove}>Mitglied löschen</Button><br></br>
+                    <Button onClick={openUpdateForm}>Austritt angeben</Button>
                     <div id='exit'>
                         <MuiPickersUtilsProvider utils={DateFnsUtils} >
                             <LocalizationProvider adapterLocale="de">
@@ -109,7 +112,6 @@ const MemberList = () => {
                             },
                         }}
                         pageSizeOptions={[5, 10]}
-                        checkboxSelection
                         hideFooterPagination
                         onRowSelectionModelChange={(ids) => {
                             const selectedIDs = new Set(ids);
