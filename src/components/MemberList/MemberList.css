@@ -17,9 +17,16 @@ td{
     font-size: 18px;
     border: 1px solid gray;
 }
+#exit{
+    visibility: hidden;
+}
+#form{
+
+    margin-left: 10px;
+}
 .ddiv{
     display: flex;
     justify-content: center;
-    margin-left: 100px;
+    margin-left: 10px;
 }
 .flex{display: flex;}

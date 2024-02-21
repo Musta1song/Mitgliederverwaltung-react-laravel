@@ -1,14 +1,9 @@
 .TextField {
     width: 500px;
-    margin-top: 20px;
     border-radius: 10%;
 }
 .Button{
     margin: 10cm;
-}
-.InputLabel{
-    font-style: none;
-    position: relative;
 }
 
 .FormGroup {

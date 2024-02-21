@@ -7,7 +7,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import moment from 'moment';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/de';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -28,9 +27,6 @@ const AddMember = () => {
     const [entry, setEntry] = useState(new Date());
     const EntryDate = moment(entry).format('YYYY-MM-DD');
 
-    const [exit, setExit] = useState(new Date());
-    const ExitDate = moment(exit).format('YYYY-MM-DD');
-
     const [birth, setBirthdate] = useState(new Date());
     const BirthDate = moment(birth).format('YYYY-MM-DD');
 
@@ -45,7 +41,7 @@ const AddMember = () => {
             SecondName: member.SecondName,
             MemberId: member.MemberId,
             MembershipFee: member.MembershipFee,
-            ExitDate: member.ExitDate = ExitDate,
+            ExitDate: member.ExitDate = null,
             EntryDate: member.EntryDate = EntryDate,
             BirthDate: member.BirthDate = BirthDate,
             role: member.role,
@@ -75,8 +71,10 @@ const AddMember = () => {
         <div>
 
             <div className='FormGroup'>
+
                 <FormControl className='FormControl'>
-                    <h1> Mitglied eintragen:</h1>
+                <h1> Mitglied eintragen:</h1>
+
                     <TextField className='TextField' sx={{ mt: 1 }} id="outlined-basic" label="Vorname *" variant="outlined"
                         value={member.FirstName} onChange={handleInputChange}
                         name='FirstName'
@@ -89,8 +87,8 @@ const AddMember = () => {
                         value={member.MemberId} onChange={handleInputChange}
                         name='MemberId'
                     />
-                    <InputLabel htmlFor="outlined-adornment-amount">Mitgliedsbeitrag</InputLabel >
-                    <OutlinedInput label="Mitgliedsbeitrag" value={member.MembershipFee} onChange={handleInputChange} name='MembershipFee'
+                    <InputLabel sx={[{position: "relative"}]} htmlFor="outlined-adornment-amount">Mitgliedsbeitrag</InputLabel >
+                    <OutlinedInput value={member.MembershipFee} onChange={handleInputChange} name='MembershipFee'
                         id="outlined-adornment-amount"
                         endAdornment={<InputAdornment position="end">€</InputAdornment>}
                     />
@@ -101,18 +99,14 @@ const AddMember = () => {
                         name='role'
                     />
                     <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                        <LocalizationProvider adapterLocale="de">
                             <DatePicker format="dd.MM.YYY"
-                                label="Geburtsdatum" className='Date' selected={exit}
+                                label="Geburtsdatum" className='Date'
                                 onChange={(date) => setBirthdate(date)}
                                 id="ExitDate" />
-                            <DatePicker format="dd.MM.YYY" label="Vereinseintritt *" className='Date' selected={entry}
+                            <DatePicker format="dd.MM.YYY" label="Vereinseintritt *" className='Date' 
                                 onChange={(date) => setEntry(date)}
                                 id="EntryDate" />
-
-                            <DatePicker format="dd.MM.YYY" label="Vereinsaustritt" className='Date' selected={exit}
-                                onChange={(date) => setExit(date)} 
-                                id="ExitDate" />
                         </LocalizationProvider>
 
                     </MuiPickersUtilsProvider>
