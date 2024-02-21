@@ -64,6 +64,7 @@ const AddMember = () => {
 
                 });
                 console.log(response.data);
+                alert("Mitglied hinzugefügt")
             })
             .catch(e => {
                 console.log(e);
@@ -72,7 +73,7 @@ const AddMember = () => {
 
     return (
         <div>
-        
+
             <div className='FormGroup'>
                 <FormControl className='FormControl'>
                     <h1> Mitglied eintragen:</h1>
@@ -99,17 +100,18 @@ const AddMember = () => {
                         value={member.role} onChange={handleInputChange}
                         name='role'
                     />
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
                         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-                            <DatePicker label="Geburtsdatum" className='Date' selected={exit}
+                            <DatePicker format="dd.MM.YYY"
+                                label="Geburtsdatum" className='Date' selected={exit}
                                 onChange={(date) => setBirthdate(date)}
                                 id="ExitDate" />
-                            <DatePicker label="Vereinseintritt *" className='Date' selected={entry}
+                            <DatePicker format="dd.MM.YYY" label="Vereinseintritt *" className='Date' selected={entry}
                                 onChange={(date) => setEntry(date)}
                                 id="EntryDate" />
 
-                            <DatePicker label="Vereinsaustritt" className='Date' selected={exit}
-                                onChange={(date) => setExit(date)}
+                            <DatePicker format="dd.MM.YYY" label="Vereinsaustritt" className='Date' selected={exit}
+                                onChange={(date) => setExit(date)} 
                                 id="ExitDate" />
                         </LocalizationProvider>
 

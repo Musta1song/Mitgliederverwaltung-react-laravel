@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MemberService from '../../DataService';
 import './MemberList.css'
 import { DataGrid } from '@mui/x-data-grid';
-
+import { Button } from '@mui/material';
 
 const MemberList = () => {
     const [data, setMemberlist] = useState([]);
@@ -22,6 +22,22 @@ const MemberList = () => {
                 console.log(e);
             });
     };
+    let toChange
+    const remove = () => {
+        MemberService.remove(toChange[0].id)
+            .then(response => {
+                console.log("Member with" + toChange.id + "deleted.")
+                window.location.reload()
+
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    };
+
+
+
+
 
     const columns = [
         { field: 'MemberId', headerName: 'Mitgliedsnummer', width: 130 },
@@ -39,8 +55,13 @@ const MemberList = () => {
                 `${params.row.FirstName || ''} ${params.row.SecondName || ''}`,
         },
     ];
+    const [selection, setSelection] = useState([]);
+
     return (
         <div>
+            <div className='flex'>
+            <div><Button onClick={remove}>delete</Button><br></br>
+            </div>
             <div className='ddiv'>
                 <DataGrid
                     rows={data}
@@ -52,8 +73,30 @@ const MemberList = () => {
                     }}
                     pageSizeOptions={[5, 10]}
                     checkboxSelection
+                    hideFooterPagination
+                    onRowSelectionModelChange={(ids) => {
+                        const selectedIDs = new Set(ids);
+                        const selectedRowData = data.filter((row) =>
+                          selectedIDs.has(row.id)
+                        );
+                        toChange= selectedRowData
+                        console.log(toChange);
+
+                      }}
+
                 />
 
+            </div>
+            <div>
+                {selection
+                    .map((selectedId) => data.find((item) => item.id === selectedId))
+                    .map(({ id, firstName, lastName }) => (
+                        <div key={id}>
+                            <p>{firstName}</p>
+                            <p>{lastName}</p>
+                        </div>
+                    ))}
+            </div>
             </div>
         </div>
     );
