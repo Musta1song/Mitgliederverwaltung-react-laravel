@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import MemberService from '../../DataService';
 import './MemberList.css'
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { DatePicker } from '@mui/x-date-pickers';
 import { DataGrid } from '@mui/x-data-grid';
 import dayjs from 'dayjs';
 import { Button } from '@mui/material';
-import DateFnsUtils from '@date-io/date-fns';
-
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import 'moment/locale/de';
 import moment from 'moment';
+
 const MemberList = () => {
     const [data, setMemberlist] = useState([]);
 
@@ -84,20 +85,18 @@ const MemberList = () => {
     return (
         <div>
             <div className='flex'>
-                <div id='form'><Button onClick={remove}>Mitglied löschen</Button><br></br>
-                    <Button onClick={openUpdateForm}>Austritt angeben</Button>
+                <div id='form'><Button id='RemoveBt' onClick={remove}>Mitglied löschen</Button><br></br>
+                    <Button id='FormBt' onClick={openUpdateForm}>Austritt angeben</Button>
                     <div id='exit'>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                            <LocalizationProvider adapterLocale="de">
-                                <DatePicker
-                                    format="dd.MM.YYY"
-                                    label="Vereinsaustritt" className='Date'
-                                    onChange={(date) => setExit(date)}
-                                    id="ExitDate" value={dayjs(exit)}
-                                />
-                            </LocalizationProvider>
+                        <LocalizationProvider dateAdapter={AdapterMoment} dateLibInstance={moment}>
+                            <DatePicker
+                                label="Vereinsaustritt" className='Date'
+                                onChange={(date) => setExit(date)}
+                                id="ExitDate"
+                            />
+                        </LocalizationProvider>
 
-                        </MuiPickersUtilsProvider><br></br>
+                        <br></br>
                         <Button onClick={setIsActiveToFalse}>Aktualisieren</Button>
 
                     </div>
@@ -120,6 +119,10 @@ const MemberList = () => {
                             );
                             toChange = selectedRowData
                             console.log(toChange);
+                            const FormBt = document.getElementById('FormBt')
+                            const RemoveBt = document.getElementById('RemoveBt')
+                            RemoveBt.style.visibility = "visible"
+                            FormBt.style.visibility = "visible"
 
                         }}
 

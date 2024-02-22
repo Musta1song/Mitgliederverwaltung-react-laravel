@@ -30,3 +30,6 @@ td{
     margin-left: 10px;
 }
 .flex{display: flex;}
+#FormBt,#RemoveBt{
+    visibility: hidden;
+}

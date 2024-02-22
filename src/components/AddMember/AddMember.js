@@ -3,16 +3,17 @@ import { React, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import './AddMember.css'
-import DateFnsUtils from '@date-io/date-fns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { DatePicker } from '@mui/x-date-pickers';
 import moment from 'moment';
-import 'dayjs/locale/de';
-import dayjs from 'dayjs';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import 'moment/locale/de';
+
+
 
 const AddMember = () => {
     const initialState = {
@@ -25,6 +26,7 @@ const AddMember = () => {
         birth: null,
         role: "",
     };
+
     const [member, setMember] = useState(initialState);
 
     const [entry, setEntry] = useState(initialState);
@@ -50,6 +52,14 @@ const AddMember = () => {
             BirthDate: member.BirthDate = birthDate,
             role: member.role,
         };
+        if (data.FirstName === "" || data.SecondName === "" ||
+            data.MemberId == null | data.MembershipFee == null ||
+            data.EntryDate == null || data.BirthDate == null) {
+            alert("Bitte füllen Sie alle markierten Felder aus!")
+            console.log(data)
+            return
+        }
+
 
         MemberService.create(data)
             .then(response => {
@@ -64,7 +74,7 @@ const AddMember = () => {
 
                 });
                 console.log(response.data);
-                alert("Mitglied hinzugefügt")
+                alert("Mitglied wurde hinzugefügt!")
             })
             .catch(e => {
                 console.log(e);
@@ -76,8 +86,8 @@ const AddMember = () => {
 
             <div className='FormGroup'>
 
-                <FormControl className='FormControl'>
-                <h1> Mitglied eintragen:</h1>
+                <FormControl className='FormControl' id='FormControl'>
+                    <h1> Mitglied eintragen:</h1>
 
                     <TextField className='TextField' sx={{ mt: 1 }} id="outlined-basic" label="Vorname *" variant="outlined"
                         value={member.FirstName} onChange={handleInputChange}
@@ -91,7 +101,7 @@ const AddMember = () => {
                         value={member.MemberId} onChange={handleInputChange}
                         name='MemberId'
                     />
-                    <InputLabel sx={[{position: "relative"}]} htmlFor="outlined-adornment-amount">Mitgliedsbeitrag</InputLabel >
+                    <InputLabel sx={[{ position: "sticky" }]} htmlFor="outlined-adornment-amount">Mitgliedsbeitrag *</InputLabel >
                     <OutlinedInput value={member.MembershipFee} onChange={handleInputChange} name='MembershipFee'
                         id="outlined-adornment-amount"
                         endAdornment={<InputAdornment position="end">€</InputAdornment>}
@@ -102,22 +112,16 @@ const AddMember = () => {
                         value={member.role} onChange={handleInputChange}
                         name='role'
                     />
-                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                        <LocalizationProvider adapterLocale="de">
-                            <DatePicker format="dd.MM.YYY"
-                                label="Geburtsdatum" className='Date'
-                                onChange={(date) => setBirthdate(date)}
-                                id="BirthDate" value={dayjs(birth)}/>
-                            <DatePicker format="dd.MM.YYY" label="Vereinseintritt *" className='Date' 
-                                onChange={(date) => setEntry(date)}
-                                id="EntryDate" value={dayjs(entry)} />
-                        </LocalizationProvider>
-                        
-
-                    </MuiPickersUtilsProvider>
-
-
-
+                    <LocalizationProvider dateAdapter={AdapterMoment} dateLibInstance={moment}>
+                        <DatePicker  sx={{ mt: 1 }}
+                            label="Geburtsdatum *" className='Date'
+                            onChange={(date) => setBirthdate(date)}
+                            id="BirthDate" />
+                        <DatePicker sx={{ mt: 1 }}
+                            label="Vereinseintritt *" className='Date'
+                            onChange={(date) => setEntry(date)}
+                            id="EntryDate" />
+                    </LocalizationProvider>
 
                     <Button sx={{ mt: 2 }} onClick={saveMember} className='Button' variant="outlined" size="large">
                         Weiter
